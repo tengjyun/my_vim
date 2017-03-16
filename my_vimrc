@@ -1,0 +1,278 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set global variable
+let g:vimtop = $MY_VIM_TOP
+let g:vimdir = g:vimtop . ".vim/"
+let g:my_vimrc = '.vimrc_tengjyun'
+let g:abs_my_vimrc = g:vimtop . '/' . g:my_vimrc
+let g:pathogenrc = g:vimdir . '/autoload/pathogen.vim'
+set nocompatible  " Need be set on using pathogen
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => pathogen initialization
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set runtimepath
+execute 'set runtimepath=' . g:vimdir . ',/usr/share/vim/vim70/'
+execute 'source ' . g:pathogenrc
+execute 'call pathogen#infect("'. g:vimdir . '/bundle/{}")'
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" allow plugins by file type (required for plugins!)
+filetype plugin on
+filetype indent on
+
+" Set mapleader
+let mapleader = ","
+let g:mapleader = ","
+
+" Fast reloading of the .vimrc
+execute 'map <leader>s :source ' . g:abs_my_vimrc . '<cr>'
+
+" Fast editing of .vimrc
+execute 'map <leader>r :tabe ' . g:abs_my_vimrc . '<cr>'
+
+" When .vimrc is edited, reload it
+execute 'autocmd! bufwritepost */' . g:abs_my_vimrc . ' source ' . g:abs_my_vimrc
+
+" Fast compile python
+map <leader>py <esc>:%w !python2.7 <cr>
+
+" Fast trim line space.
+map <leader>tr <esc>ma<esc>:%s/ *$//g<cr><esc>:nohl<cr>`a
+
+" Fast save file.
+map <leader>w :w<cr>
+
+filetype off " necessary to make ftdetect work on Linux
+syntax on
+filetype on
+filetype plugin on
+filetype indent on
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Always show line number
+set number
+
+" Always show current position
+set ruler
+
+" Height of the command bar
+set cmdheight=2
+
+" Always show tab line
+set showtabline=2
+
+" Ignore case when searching
+set ignorecase
+
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch
+
+" Show matching brackets when text indicator is over them
+set showmatch
+
+" Show cursor line.
+set cursorline
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set noai "Auto indent
+set nosi "Smart indent
+set nowrap "Wrap lines
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Smart way to move between windows
+map <c-h> <c-w>h
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+
+" Fast tab switch
+for i in [1,2,3,4,5,6,7,8,9]
+    execute 'map <space>' . i . ' :tabn ' . i . '<cr>'
+endfor
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+set statusline=\ %F%m%r%h\ %w\ %=CWD:\ %r%{getcwd()}%h\ %025.(\ Column:\ %c%V,\ Line:\ %l%)\ [%P]
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set mouse
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" mouse setting
+if has('mouse')
+    set mouse=a
+    set ttymouse=xterm
+endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins settings and mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tagbar ------------------------------------------------------
+" toggle tagbar display
+map <leader>tt :TagbarToggle<CR>
+nnoremap <script> <buffer> <leader>zh :call <SID>ToggleHelp()<CR>
+" autofocus on tagbar open
+let g:tagbar_autofocus = 1
+let g:tagbar_usearrows = 0
+
+" NERDTree ----------------------------------------------------
+" toggle nerdtree display
+map <leader>nt :NERDTreeToggle<CR>
+map <leader>ns :NERDTreeTabsToggle<CR>
+" open nerdtree with the current file selected
+nmap <Leader>nf :NERDTreeFind<CR>
+" don't show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+" show hidden file.
+let NERDTreeShowHidden=1  " NERDTreeShowHidden [ 0: hidden, 1: display ]
+" Set nerdtree symbols
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '~'
+let NERDTreeDirArrows=0
+
+
+" Tasklist ----------------------------------------------------
+" show pending tasks list
+map <Leader>tl :TaskList<CR>
+" set tasklist token
+let g:tlTokenList = ["FIXME", "TODO", "XXX"]"
+
+" CtrlP -------------------------------------------------------
+" file finder mapping
+let g:ctrlp_map = '<c-p>'
+" tags (symbols) in current file finder mapping
+nmap ,g :CtrlPBufTag<CR>
+" tags (symbols) in all files finder mapping
+nmap ,G :CtrlPBufTagAll<CR>
+" general code finder in all files mapping
+nmap ,f :CtrlPLine<CR>
+" recent files finder mapping
+nmap ,m :CtrlPMRUFiles<CR>
+" commands finder mapping
+nmap ,c :CtrlPCmdPalette<CR>
+" to be able to call CtrlP with default search text
+function! CtrlPWithSearchText(search_text, ctrlp_command_end)
+    execute ':CtrlP' . a:ctrlp_command_end
+    call feedkeys(a:search_text)
+endfunction
+" same as previous mappings, but calling with current word as default text
+nmap ,wg :call CtrlPWithSearchText(expand('<cword>'), 'BufTag')<CR>
+nmap ,wG :call CtrlPWithSearchText(expand('<cword>'), 'BufTagAll')<CR>
+nmap ,wf :call CtrlPWithSearchText(expand('<cword>'), 'Line')<CR>
+nmap ,we :call CtrlPWithSearchText(expand('<cword>'), '')<CR>
+nmap ,pe :call CtrlPWithSearchText(expand('<cfile>'), '')<CR>
+nmap ,wm :call CtrlPWithSearchText(expand('<cword>'), 'MRUFiles')<CR>
+nmap ,wc :call CtrlPWithSearchText(expand('<cword>'), 'CmdPalette')<CR>
+" don't change working directory
+let g:ctrlp_working_path_mode = 0
+" ignore these files and folders on file finder
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
+  \ 'file': '\.pyc$\|\.pyo$',
+  \ }
+
+" CtrlPFunky ------------------------------------------------
+nnoremap <leader>fu :CtrlPFunky<cr>
+" narrow the list down with a word under cursor
+nnoremap <leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_funky_matchtype = 'path'
+
+" Autoclose ---------------------------------------------------
+" Fix to let ESC work as espected with Autoclose plugin
+let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<ESC>"}
+
+" For taglist
+let Tlist_Use_Right_Window=1  " Tlist_Use_Right_Window [0: True, 1: Falst]
+let g:ctags_statusline=1  " Display function name in status bar: [0: True, 1: False]
+let generate_tags=1  " Automatically start script [0: True, 1: False]
+let g:Tlist_Show_One_File=1  " Show tags for the current buffer only. [0: True, 1: False]
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlighting
+syntax enable
+"
+" Set colorscheme
+colorscheme desert
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+" Tab color
+hi TabLine           cterm=none      ctermfg=4    ctermbg=2   gui=underline guibg=#6c6c6c guifg=White
+hi TabLineSel        cterm=none      ctermfg=3    ctermbg=0   gui=NONE guifg=White
+hi TabLineFill       cterm=reverse   ctermfg=2    gui=reverse
+hi TabLineNr         cterm=underline ctermbg=238   guibg=#444444
+hi TabLineNrSel      cterm=bold      ctermfg=45    guifg=#00d7ff
+hi TabLineMore       cterm=underline ctermfg=White ctermbg=236   gui=underline guifg=White   guibg=#303030
+hi TabLineSplitNr    cterm=underline ctermfg=148  ctermbg=240 gui=underline,italic guifg=#afd700   guibg=#6c6c6c
+hi TabLineSplitNrSel cterm=NONE      ctermfg=148  ctermbg=236 gui=NONE,italic      guifg=#afd700   guibg=#303030
+
+" Status color
+hi StatusLine        cterm=underline ctermfg=2    ctermbg=4   gui=underline guibg=#6c6c6c guifg=White
+hi StatusLineNC      cterm=bold      ctermfg=0    ctermbg=7   gui=NONE guifg=White
+
+" Poped menu color
+hi Pmenu             cterm=bold      ctermfg=2    ctermbg=4   gui=NONE guibg=#6c6c6c guifg=White
+hi PmenuSel          cterm=bold      ctermfg=2    ctermbg=6   gui=NONE guibg=#6c6c6c guifg=White
+
+" Diff colors
+highlight DiffAdd           cterm=bold ctermbg=none ctermfg=119
+highlight DiffDelete        cterm=bold ctermbg=none ctermfg=167
+highlight DiffChange        cterm=bold ctermbg=none ctermfg=227
+
