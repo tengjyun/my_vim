@@ -4,7 +4,7 @@
 " Set global variable
 let g:vimtop = $MY_VIM_TOP
 let g:vimdir = g:vimtop . ".vim/"
-let g:my_vimrc = '.vimrc_tengjyun'
+let g:my_vimrc = 'my_vimrc'
 let g:abs_my_vimrc = g:vimtop . '/' . g:my_vimrc
 let g:pathogenrc = g:vimdir . '/autoload/pathogen.vim'
 set nocompatible  " Need be set on using pathogen
